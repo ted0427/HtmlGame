@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>random game</title>
+<style>
+div {
+	width: 700px;
+	display: inline-block;
+	text-align: center;
+	margin: auto;
+}
+
+.all {
+	width: 1500px;
+}
+
+.buttons {
+	width: 600px;
+}
+
+button {
+	border: 1px solid black;
+	width: 500px;
+	height: 60px;
+	background-color: white;
+}
+
+input {
+	border: 1px solid black;
+	width: 300px;
+	height: 20px;
+	background-color: white;
+}
+</style>
+<script>
+	var click = 0;
+	var game = false;
+	var text = "";
+	var time = -1;
+	timer();
+	function updateText() {
+		text = "";
+		for(var i=0;i<((click+1) / 4 + 2);i++) {
+			text = text + random(9);
+		}
+		document.getElementById("text").innerText = text;
+		time = 10;
+	}
+	function timer() {
+		if(time == 0)
+			clear();
+		else if(time > 0) {
+			time--;
+		}
+		setTimeout(timer, 100);
+	}
+	function clear() {
+		document.getElementById("text").innerText = "1초지남";
+	}
+	function random(number) {
+		return Math.floor(Math.random() * number);
+	}
+	function buttonClick() {
+		if(!game)
+			return;
+		if (document.getElementById("numberInput").value == text) {
+			click++;
+			updateClickedText(true);
+			updateText();
+			random();
+		} else {
+			game = false;
+			time = -1;
+			updateClickedText(false);
+		}
+		document.getElementById("numberInput").value = "";
+		return true;
+	}
+	function restart() {
+		document.getElementById("restart").innerText = "재시작";
+		click = 0;
+		game = true;
+		random();
+		updateClickedText(true);
+		updateText();
+		return true;
+	}
+	function updateClickedText(success) {
+		if(success)
+			document.getElementById("clicked").innerText = click + "번째";
+		else {
+			document.getElementById("clicked").innerText = "실패   결과: " + click
+			+ "번째";
+			document.getElementById("text").innerText = "정답 : " + text;
+		}
+	}
+</script>
+</head>
+<body onContextmenu = "return false" ondragstart = "return flase" onSelectstart = "return false">
+	<div class="all">
+		<div>
+			<h2>암기력 게임</h2>
+		</div><br>
+		<div>
+			<p id="clicked">0번째</p>
+			<p id="text">0</p>
+		</div><br>
+		<div class="buttons">
+			<input id="numberInput"></input><br><br>
+			<button onclick="buttonClick()">
+				<p>확인</p>
+			</button><br><br><br>
+			<button id="restart" onclick="restart()">
+				<p>시작</p>
+			</button><br>
+			<p>1초동안 숫자가 나오면 그 숫자를 기억하고 입력 후 확인 버튼을 누르세요.</p>
+		</div>
+	</div>
+</body>
+</html>

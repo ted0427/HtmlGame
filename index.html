@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>random game</title>
+<style>
+div {
+	width: 1500px;
+	display: inline-block;
+	text-align: center;
+	border-radius: 10px;
+}
+
+.game {
+	width: 130px;
+	height: 100px;
+	background-color : white;
+	border: 1px solid black;
+	float: left;
+}
+
+.game_update {
+	width: 130px;
+	height: 100px;
+	background-color: powderblue;
+	border: 1px solid black;
+	float: left;
+}
+</style>
+<script>
+	function buttonClick(name) {
+		location.href = name + '.html';
+		return true;
+	}
+</script>
+</head>
+<body>
+	<div>
+		<div>
+			<h2>게임</h2>
+		</div>
+		<div>
+			<div class="game_update" onclick="buttonClick('randomButton')">
+				<p><br>50% 게임</p>
+			</div>
+			<div class="game" onclick="buttonClick('buttonsClick')">
+				<p><br>버튼 클릭</p>
+			</div>
+			<div class="game" onclick="buttonClick('RockPaperScissors')">
+				<p><br>가위바위보</p>
+			</div>
+			<div class="game" onclick="buttonClick('Memorization')">
+				<p><br>암기력 게임</p>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

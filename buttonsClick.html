@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>random game</title>
+<style>
+div {
+	width: 1500px;
+	display: inline-block;
+	text-align: center;
+	margin: auto;
+}
+
+.all {
+	width: 1500px;
+}
+
+.buttonsDiv {
+	width: 1500px;
+}
+
+button {
+	border: 1px solid black;
+	width: 500px;
+	height: 60px;
+	background-color: white;
+}
+
+.buttons {
+	width: 60px;
+}
+</style>
+<script>
+	var buttonNumber = 184;
+	var buttonsClicked = [];
+	var isTimer = false;
+	var time = 0;
+	timer();
+	function timer() {
+		if(isTimer) {
+			time++;
+			var minute = Math.floor(time / 60);
+			var second = Math.floor(time % 60);
+			if(minute < 10)
+				minute = "0" + minute;
+			if(second < 10)
+				second = "0" + second;
+			var timerText = (minute + " : " + second);
+			document.getElementById("timer").innerText = timerText;
+		}
+		setTimeout(timer, 1000);
+	}
+	function buttonClick(a) {
+		document.getElementById("button" + a).style.backgroundColor = "gray";
+		buttonsClicked[a] = true
+		checkSuccess();
+		return true;
+	}
+	function restart() {
+		document.getElementById("start").innerText = "재시작";
+		document.getElementById("game").innerText = "게임중";
+		buttons();
+		for(var i=0;i<buttonNumber;i++) {
+			document.getElementById("button" + i).style.backgroundColor = "white";
+			buttonsClicked[i] = false
+		}
+		isTimer = true;
+		time = 0;
+		return true;
+	}
+	function buttons() {
+		var html = "<table>";
+		for (var i = 0; i < buttonNumber; i++) {
+			if(i % 23 == 0)
+				html = html + "<tr>";
+			html = html + "<th><button class=\"buttons\" id=\"button" + i
+					+ "\"onclick=\"buttonClick(" + i + ")\"><p>" + (i+1)
+					+ "</p></button></th>";
+			if(i % 23 == 22)
+				html = html + "</tr>";
+		}
+		html = html + "</table>";
+		document.getElementById("buttons").innerHTML = html;
+	}
+	function checkSuccess() {
+		for(var i=0;i<buttonNumber;i++) {
+			if(!buttonsClicked[i])
+				return;
+		}
+		success();
+	}
+	function success() {
+		isTimer = false;
+		document.getElementById("game").innerText = "성공";
+	}
+</script>
+</head>
+<body>
+	<div class="all">
+		<div>
+			<h2>버튼 클릭 게임</h2>
+		</div>
+		<br>
+		<div>
+			<p id="game">게임 시작 전</p>
+			<p id="timer">00 : 00</p>
+		</div>
+		<br>
+		<div>
+			<button onclick="restart()">
+				<p id="start">게임 시작</p>
+			</button>
+		</div>
+		<p></p>
+		<div id="buttons" class="buttonsDiv">
+			
+		</div>
+	</div>
+</body>
+</html>

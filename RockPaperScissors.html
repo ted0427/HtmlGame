@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>random game</title>
+<style>
+div {
+	width: 700px;
+	display: inline-block;
+	text-align: center;
+	margin: auto;
+}
+
+.all {
+	width: 1500px;
+}
+
+.buttons {
+	width: 600px;
+}
+
+.nickNameDiv {
+	width: 420px;
+	height: 53px;
+	border: 1px solid black;
+}
+
+button {
+	border: 1px solid black;
+	width: 400px;
+	height: 60px;
+	background-color: white;
+}
+
+.nickName {
+	width: 220px;
+	height: 25px;
+}
+</style>
+<script>
+	var click = 0;
+	var game = true;
+	var button = 0;
+	var nickname = "";
+	function buttonClick(a) {
+		if(!game)
+			return true;
+		if(nickname == "") {
+			alert("닉네임을 정해주세요");
+			return true;
+		}
+		var outcome = 0;
+		var computer = Math.floor(Math.random() * 3);
+		updateNicknameText(nickname, getGameText(a), getGameText(computer));
+		if(a == computer)
+			outcome = 0;
+		else if((a == 0 && computer == 2) || (a == 1 && computer == 0) || (a == 2 && computer == 1))
+			outcome = 1;
+		else
+			outcome = -1;
+		updateClickedText(outcome);
+		return true;
+	}
+	function restart() {
+		click = 0;
+		game = true;
+		setClickedText();
+		return true;
+	}
+	function getOutcomeText(outcome) {
+		switch(outcome) {
+		case -1:
+			return "짐";
+		case 0:
+			return "비김";
+		case 1:
+			return "이김";
+		}
+		return "오류";
+	}
+	function getGameText(a) {
+		switch(a) {
+		case 0:
+			return "가위";
+		case 1:
+			return "바위";
+		case 2:
+			return "보";
+		}
+		return "오류";
+	}
+	function updateClickedText(outcome) {
+		if(outcome >= 0) {
+			click++;
+			document.getElementById("clicked").innerText = getOutcomeText(outcome) + "    " + click + "번째";
+		}
+		else {
+			game = false;
+			document.getElementById("clicked").innerText = getOutcomeText(outcome) + "    실패   결과: " + click
+			+ "번째";
+		}
+	}
+	function setClickedText() {
+		document.getElementById("clicked").innerText = click + "번째";
+	}
+	function updateNicknameText(nickname, text1, text2) {
+		document.getElementById("nickname").innerText = nickname + " : " + text1 + "     " + "컴퓨터 : " + text2;
+	}
+	function clickNickName() {
+		nickname = document.getElementById("nickNameText").value;
+		if(nickname.length <=3) {
+			alert("닉네임은 4글자 이상으로 해주세요.");
+		}
+		updateNicknameText(nickname, "", "");
+		return true;
+	}
+</script>
+</head>
+<body>
+	<div class="all">
+		<div>
+			<h2>가위바위보</h2>
+		</div><br>
+		<div>
+			<p id="clicked">0번째</p>
+			<p id="nickname">닉네임을 입력해주세요.</p>
+		</div><br>
+		<div class="buttons">
+			<button onclick="buttonClick(0)">
+				<p>가위</p>
+			</button>
+			<button onclick="buttonClick(1)">
+				<p>바위</p>
+			</button>
+			<button onclick="buttonClick(2)">
+				<p>보</p>
+			</button>
+			<button onclick="restart()">
+				<p>재시작</p>
+			</button>
+		</div><br><br><br>
+		<div class="nickNameDiv">
+			<form>
+				닉네임<input type="text" id="nickNameText">
+			</form>
+			<button class="nickName" id="nickNameButton" onClick="clickNickName()">확인</button>
+		</div><br><br>
+		<p>이기거나 비기면 다음 단계로 넘어갑니다</p>
+	</div>
+</body>
+</html>
